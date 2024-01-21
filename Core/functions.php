@@ -1,8 +1,7 @@
 <?php
 
 use Core\Response;
-
-
+use Core\Session;
 
 function dd($value)
 {
@@ -43,22 +42,13 @@ function view($path, $header = [])
     require base_path('view/' . $path);
 }
 
-function login($user, )
+function redirect($path)
 {
-    $_SESSION['user'] = [
-        'id' => $user['user_id'],
-        'email' => $user['email'],
-        'login' => true
-    ];
-    session_regenerate_id(true);
+    header("location: {$path}");
+    exit();
 }
 
-function logout()
+function old($key, $default = null)
 {
-    session_destroy();
-
-    $params = session_get_cookie_params();
-
-    setcookie('PHPSESSID', '', time() - 3600, $params['path'], $params['domain'], $params['secure'], $params['httponly']);
-
+    return Session::get('old')[$key] ?? $default;
 }

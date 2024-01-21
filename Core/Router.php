@@ -28,7 +28,7 @@ class Router
                 // if ($route['middleware'] === 'auth') {
                 //     (new Auth)->handle();
                 // }
-                return require base_path($route['controller']);
+                return require base_path("Http/controllers/" . $route['controllers']);
             }
         }
         $this->abort(Response::NOT_FOUND, ['err' => "Sorry page not found."]);
@@ -37,11 +37,16 @@ class Router
     {
         $this->routes[] = [
             "uri" => $uri,
-            "controller" => $controller,
+            "controllers" => $controller,
             "method" => $method,
             "middleware" => null
         ];
         return $this;
+    }
+
+    public function previousUrl()
+    {
+        return $_SERVER['HTTP_REFERER'];
     }
     public function get($uri, $controller)
     {
